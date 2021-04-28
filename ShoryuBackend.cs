@@ -249,7 +249,7 @@ namespace ShoryuNet
 
             } else
             {
-                throw new Exception("Can't call SyncInput when not in game");
+                throw new Exception("Can't call SyncInput when not in-game");
             }
         }
 
