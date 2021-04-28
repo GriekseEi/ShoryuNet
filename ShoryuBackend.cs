@@ -230,8 +230,9 @@ namespace ShoryuNet
                     // Roll back the amount of necessary frames with the updated inputs, except for the current frame
                     for (int i = _rollbackPoint; i < _frameCount; i++)
                     {
-                        _cb.DebugOutput($"ROLLBACK TIME========================= Rolling back frame: {i} | Target: {_frameCount}");
-                        _cb.LoadState(_getAllInputsByFrame(i));
+                        byte[] output = _getAllInputsByFrame(i);
+                        _cb.DebugOutput($"ROLLBACK: Rolling back frame: {i} | Target: {_frameCount} | Output: {PrintSyncInputPayload(output)}");
+                        _cb.LoadState(i, output);
                     }
                     _rollbackPoint = -1;
                 }
@@ -532,12 +533,14 @@ namespace ShoryuNet
 
                                             // A packet that arrives with a framecount difference higher than 1 means that a packet with framecount+1 was lost or arrived too slow,
                                             // so repopulate the missing frames using the extra inputs of the previous frames in the payload
-                                            if (newFrame == player.LastAddedFrame++)
+                                            if (message.Packet.Frame > (player.LastAddedFrame + 1))
                                             {
-                                                for (int i = 1; i < (newFrame - player.LastAddedFrame++); i++)
+                                                int counter = 1;
+                                                for (int i = newFrame - 1; i > player.LastAddedFrame; i--)
                                                 {
-                                                    player.AddInput(player.LastAddedFrame + i, message.Packet.Payload.Skip(i * _inputSize).Take(_inputSize).ToArray());
+                                                    player.AddInput(i, message.Packet.Payload.Skip(counter * _inputSize).Take(_inputSize).ToArray());
                                                     _cb.DebugOutput($"POPULATE -- ID: {player.Id} | FRAME: {i} | PAYLOAD: {PrintBytes(player.GetInput(i))}");
+                                                    counter++;
                                                 }
                                             }
 

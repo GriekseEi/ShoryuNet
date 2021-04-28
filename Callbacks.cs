@@ -10,7 +10,7 @@
         // Is called to tell the host program about changes to ShoryuNet's state
         public delegate void EventCallbackFn(ClientState state);
         // Is called to tell the host program to rollback to the given state
-        public delegate void LoadStateFn(byte[] inputs);
+        public delegate void LoadStateFn(int frame, byte[] inputs);
 
         public DebugOutputFn DebugOutput;
         public EventCallbackFn EventCallback;
