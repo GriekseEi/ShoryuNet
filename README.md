@@ -1,6 +1,6 @@
 # ShoryuNet
 
-ShoryuNet is a P2P UDP rollback netcode library written in C#. It supports multiple remote players and spectators.
+ShoryuNet is a P2P UDP rollback netcode library written in C#, intended to be used for fighting games. It supports multiple remote players and spectators.
 
 ## Usage
 1. Build the project and import ShoryuNet.dll in your own project
