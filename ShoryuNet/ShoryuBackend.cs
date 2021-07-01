@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -73,7 +72,7 @@ namespace ShoryuNet
             if (simulatedPacketLoss < 0)                throw new Exception("Simulated packet loss cannot be negative");
             if (localPort < 1024 && localPort > 65535)  throw new Exception("Invalid port number: local port must be or be between 1024 and 65535");
 
-            // Setup local variables
+            // Set up local variables
             _frameCount = 0;
             _packetCounter = 0;
             _rollbackPoint = -1;
@@ -595,7 +594,7 @@ namespace ShoryuNet
             {
                 // On success, respond with an AcceptJoin
                 _sendAcceptJoin(message.Packet.PlayerId);
-                if (player.Type == PlayerType.Local) _cb.DebugOutput($"Received RequestJoin: Added {player}");
+                if (player.Type == PlayerType.Remote) _cb.DebugOutput($"Received RequestJoin: Added {player}");
                 else _cb.DebugOutput($"Received RequestSpectate: Added {player}");
             }
             else
